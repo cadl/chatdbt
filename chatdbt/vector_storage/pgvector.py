@@ -15,7 +15,7 @@ Base = declarative_base()
 
 
 class PGVectorStorage(VectorStorage):
-    def _orm_for(self, table_name) -> Base:
+    def _orm_for(self, table_name):
         class Item(Base):
             __tablename__ = table_name
             id = Column(Integer, primary_key=True, autoincrement=True)

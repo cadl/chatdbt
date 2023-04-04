@@ -1,7 +1,9 @@
-import requests
 import logging
-from chatdbt.model import TikTokenProvider
 from typing import Optional
+
+import requests
+
+from chatdbt.model import TikTokenProvider
 
 
 class TikTokenHttpServerProvider(TikTokenProvider):

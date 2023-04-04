@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Set, List, Dict
+from typing import Optional, Set, List, Dict, cast
 import uuid
 import datetime
 from chatdbt.model import (
@@ -43,7 +43,7 @@ class DocManager:
         model = self._dbt_doc_resolver.get_manifest_by_unique_id(unique_id) or {
             "columns": {}
         }
-        _columns = defaultdict(dict)
+        _columns: Dict[str, Dict[str, str]] = defaultdict(dict)
         for column in model["columns"].values():
             _columns[column["name"]]["description"] = column["description"]
             _columns[column["name"]]["type"] = column["data_type"]
@@ -152,10 +152,11 @@ class ChatBot:
         self.tiktoken_provider = tiktoken_provider
         self.openai = Openai()
         self._i18n = i18n
-        self._messages = []
+        self._messages: List[ChatMessage] = []
 
     def index_dbt_docs(self):
         """Index all dbt docs"""
+
         if self.tiktoken_provider:
             n_tokens = 0
             for doc in self.doc_manager.get_all_docs():
@@ -194,7 +195,11 @@ class ChatBot:
             for doc in docs
             if doc.get_metadata().doc_type in [DocType.MODEL, DocType.SQL]
         ]
-        chat_docs = [doc for doc in docs if doc.get_metadata().doc_type == DocType.CHAT]
+        chat_docs = [
+            cast(ChatConversationDocument, doc)
+            for doc in docs
+            if doc.get_metadata().doc_type == DocType.CHAT
+        ]
         dbt_model_names = [doc.get_metadata().meta["name"] for doc in dbt_docs]
 
         if not dbt_docs:
@@ -259,7 +264,11 @@ class ChatBot:
             for doc in docs
             if doc.get_metadata().doc_type in [DocType.MODEL, DocType.SQL]
         ]
-        chat_docs = [doc for doc in docs if doc.get_metadata().doc_type == DocType.CHAT]
+        chat_docs = [
+            cast(ChatConversationDocument, doc)
+            for doc in docs
+            if doc.get_metadata().doc_type == DocType.CHAT
+        ]
         dbt_model_names = [doc.get_metadata().meta["name"] for doc in dbt_docs]
 
         if not dbt_docs:

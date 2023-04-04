@@ -78,8 +78,8 @@ def _markdown_dbt_doc_li(name: str, content: str, indent: int = 4):
     for item in _items:
         items.append(item)
         items.append("")
-    l = [" " * indent + item for item in ["```", *items, "```"]]
-    body = "\n".join(l)
+
+    body = "\n".join([" " * indent + item for item in ["```", *items, "```"]])
     return f"""- {name}
 
 {body}

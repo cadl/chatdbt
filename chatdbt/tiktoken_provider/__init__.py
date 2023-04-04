@@ -1,9 +1,10 @@
-from typing import Dict
+from typing import Any, Dict
+
 from chatdbt.model import TikTokenProvider
 
 
 def get_tiktoken_provider(
-    provider_type: str, config: Dict[str, str]
+    provider_type: str, config: Dict[str, Any]
 ) -> TikTokenProvider:
     if provider_type == "tiktoken_http_server":
         from .tiktoken_http_server import TikTokenHttpServerProvider
