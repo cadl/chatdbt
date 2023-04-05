@@ -3,6 +3,6 @@
 all: lint
 
 lint:
-		mypy .
-		black . --check
-		ruff .
+		poetry run mypy .
+		poetry run black . --check
+		poetry run ruff .
