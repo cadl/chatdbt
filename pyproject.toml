@@ -25,6 +25,9 @@ black = "^23"
 nomic = ["nomic"]
 pgvector = ["pgvector", "sqlalchemy", "psycopg"]
 
+[tool.mypy]
+ignore_missing_imports = true
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
