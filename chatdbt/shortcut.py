@@ -1,7 +1,7 @@
 import functools
 import logging
 import os
-from typing import Optional, cast
+from typing import Optional, cast, Any
 
 from chatdbt.chat import ChatBot
 from chatdbt.dbt_doc_resolver import get_dbt_doc_resolver
@@ -20,6 +20,8 @@ ENV_VAR_I18N = "CHATDBT_I18N"
 ENV_VAR_TIKTOKEN_PROVIDER_TYPE = "CHATDBT_TIKTOKEN_PROVIDER_TYPE"
 ENV_VAR_TIKTOKEN_PROVIDER_CONFIG_PREFIX = "CHATDBT_TIKTOKEN_PROVIDER_CONFIG_"
 
+ENV_VAR_OPENAI_CONFIG_PREFIX = "CHATDBT_OPENAI_CONFIG_"
+
 
 class _Global:
     chat_instance: Optional[ChatBot] = None
@@ -30,6 +32,7 @@ def setup_shortcut(
     vector_storage: VectorStorage,
     dbt_doc_resolver: DBTDocResolver,
     tiktoken_provider: Optional[TikTokenProvider] = None,
+    openai_config: Optional[dict[str, Any]] = None,
     i18n: str = "en-us",
 ):
     logging.basicConfig(level=logging.INFO)
@@ -38,6 +41,7 @@ def setup_shortcut(
         dbt_doc_resolver,
         vector_storage,
         tiktoken_provider,
+        openai_config,
         i18n,
     )
     _Global.chat_instance_init = True
@@ -81,10 +85,17 @@ def setup_shortcut_via_env() -> None:
             tiktoken_provider_type, tiktoken_provider_config
         )
 
+    openai_config = {
+        k.replace(ENV_VAR_OPENAI_CONFIG_PREFIX, "").lower(): v
+        for k, v in os.environ.items()
+        if k.startswith(ENV_VAR_OPENAI_CONFIG_PREFIX)
+    }
+
     setup_shortcut(
         get_vector_storage(vector_storage_type, vector_storage_config),
         get_dbt_doc_resolver(dbt_doc_resolver_type, dbt_doc_resolver_config),
         tiktoken_provider,
+        openai_config,
         i18n,
     )
 

@@ -30,8 +30,9 @@ def price_for_embedding(n_tokens: int) -> float:
 class Openai(EmbeddingProvider):
     """OpenAI embedding"""
 
-    def __init__(self):
+    def __init__(self, temprature: float = 0.2):
         self.embedding_model = EMBEDDING_MODEL
+        self.temprature = temprature
 
     def embed(self, content: str) -> List[float]:
         """Embed a piece of text into a vector"""
@@ -40,8 +41,8 @@ class Openai(EmbeddingProvider):
     def completion(self):
         openai.ChatCompletion.create()
 
-    def chat_completion(self, messages: List[Dict[str, str]], temperature=0.2) -> str:
-        res = chat_completion(messages, temperature=temperature)
+    def chat_completion(self, messages: List[Dict[str, str]]) -> str:
+        res = chat_completion(messages, temperature=self.temperature)
         usage = res["usage"]["total_tokens"]
         logging.info(
             "chat-completion total tokens: %s, cost %s$",

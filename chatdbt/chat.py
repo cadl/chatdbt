@@ -1,5 +1,5 @@
 import logging
-from typing import Optional, Set, List, Dict, cast
+from typing import Optional, Set, List, Dict, cast, Any
 import uuid
 import datetime
 from chatdbt.model import (
@@ -145,12 +145,13 @@ class ChatBot:
         doc_resolver: DBTDocResolver,
         vector_storage: VectorStorage,
         tiktoken_provider: Optional[TikTokenProvider],
+        openai_config: Optional[Dict[str, Any]] = None,
         i18n: str = "en",
     ) -> None:
         self.doc_manager = DocManager(doc_resolver)
         self.vector_storage = vector_storage
         self.tiktoken_provider = tiktoken_provider
-        self.openai = Openai()
+        self.openai = Openai(**(openai_config or {}))
         self._i18n = i18n
         self._messages: List[ChatMessage] = []
 
