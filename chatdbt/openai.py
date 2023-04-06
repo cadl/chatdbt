@@ -30,9 +30,9 @@ def price_for_embedding(n_tokens: int) -> float:
 class Openai(EmbeddingProvider):
     """OpenAI embedding"""
 
-    def __init__(self, temprature: float = 0.2):
+    def __init__(self, temperature: float = 0.2):
         self.embedding_model = EMBEDDING_MODEL
-        self.temprature = temprature
+        self.temperature = float(temperature)
 
     def embed(self, content: str) -> List[float]:
         """Embed a piece of text into a vector"""

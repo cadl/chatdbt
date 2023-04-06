@@ -1,7 +1,7 @@
 import functools
 import logging
 import os
-from typing import Optional, cast, Any
+from typing import Optional, cast, Any, Dict
 
 from chatdbt.chat import ChatBot
 from chatdbt.dbt_doc_resolver import get_dbt_doc_resolver
@@ -32,7 +32,7 @@ def setup_shortcut(
     vector_storage: VectorStorage,
     dbt_doc_resolver: DBTDocResolver,
     tiktoken_provider: Optional[TikTokenProvider] = None,
-    openai_config: Optional[dict[str, Any]] = None,
+    openai_config: Optional[Dict[str, Any]] = None,
     i18n: str = "en-us",
 ):
     logging.basicConfig(level=logging.INFO)
