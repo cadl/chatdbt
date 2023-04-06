@@ -77,9 +77,7 @@ def _markdown_dbt_doc_li(name: str, content: str, indent: int = 4):
     items = []
     for item in _items:
         items.append(item)
-        items.append("")
-
-    body = "\n".join([" " * indent + item for item in ["```", *items, "```"]])
+    body = "\n\n".join([" " * indent + item for item in ["```", *items, "```"]])
     return f"""- {name}
 
 {body}
@@ -92,7 +90,7 @@ def _markdown_chat_doc_li(query: str, response: str, indent: int = 4):
         " " * indent + item
         for item in ["```", f"query: {query}", f"response: {response}", "```"]
     ]
-    body = "\n".join(items)
+    body = "\n\n".join(items)
     return f"- {body}"
 
 
@@ -145,7 +143,9 @@ class DBTModelDocument(BaseModel, Doc):
     depends_on: List[str]
 
     def get_content(self):
-        columns = [i.dict() for i in self.columns]
+        columns = [
+            str(i.dict()).replace(" ", "").replace("'", "") for i in self.columns
+        ]
         return f"""name: {self.name}
 description: {self.description or ''}
 columns: {columns}
