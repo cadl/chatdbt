@@ -86,12 +86,11 @@ def _markdown_dbt_doc_li(name: str, content: str, indent: int = 4):
 
 
 def _markdown_chat_doc_li(query: str, response: str, indent: int = 4):
-    items = [
-        " " * indent + item
-        for item in ["```", f"query: {query}", f"response: {response}", "```"]
-    ]
-    body = "\n\n".join(items)
-    return f"- {body}"
+    return f"""- {query}
+
+  > {response}
+
+"""
 
 
 class DBTDocResolver(ABC):
