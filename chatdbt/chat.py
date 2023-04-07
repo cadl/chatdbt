@@ -238,7 +238,7 @@ class ChatBot:
                 "role": "user",
                 "content": get_i18n_text(
                     I18nKey.KEY_PROMPT_USER_ROLE_SUGGEST_TABLES
-                ).format(query, ",".join(dbt_model_names)),
+                ).format(",".join(dbt_model_names), query),
             }
         )
         response = self.openai.chat_completion(messages=messages)
@@ -307,7 +307,7 @@ class ChatBot:
                 "role": "user",
                 "content": get_i18n_text(
                     I18nKey.KEY_PROMPT_USER_ROLE_SUGGEST_SQL
-                ).format(query, ",".join(dbt_model_names)),
+                ).format(",".join(dbt_model_names), query),
             }
         )
         logging.debug("messages: %s", messages)
