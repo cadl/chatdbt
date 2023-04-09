@@ -17,7 +17,7 @@ sqlalchemy = {version = "^2", optional = true}
 psycopg = {version = "^3", optional = true, extras = ["binary"]}
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7"
 mypy = "^1"
 ruff = "^0.0.260"
 black = "^23"

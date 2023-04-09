@@ -6,3 +6,6 @@ lint:
 		poetry run mypy --non-interactive --install-types .
 		poetry run black . --check
 		poetry run ruff .
+
+unit-test:
+		poetry run pytest -v
