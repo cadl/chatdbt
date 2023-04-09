@@ -25,6 +25,7 @@ def sample_resolver() -> LocalfsDBTDocResolver:
 
 def test_get_manifest_by_unique_id(sample_resolver: LocalfsDBTDocResolver):
     doc = sample_resolver.get_manifest_by_unique_id("model.jaffle_shop.customers")
+    assert doc is not None
     assert doc["resource_type"] == "model"
     assert doc["name"] == "customers"
     assert doc["schema"] == "dbt_alice"
